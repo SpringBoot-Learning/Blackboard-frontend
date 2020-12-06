@@ -26,42 +26,42 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, customers, ...rest }) => {
+const Results = ({ className, students, ...rest }) => {
   const classes = useStyles();
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [selectedStudentIds, setSelectedStudentIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedStudentIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedStudentIds = students.map((student) => student.id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedStudentIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedStudentIds(newSelectedStudentIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+    const selectedIndex = selectedStudentIds.indexOf(id);
+    let newSelectedStudentIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      newSelectedStudentIds = newSelectedStudentIds.concat(selectedStudentIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      newSelectedStudentIds = newSelectedStudentIds.concat(selectedStudentIds.slice(1));
+    } else if (selectedIndex === selectedStudentIds.length - 1) {
+      newSelectedStudentIds = newSelectedStudentIds.concat(selectedStudentIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
+      newSelectedStudentIds = newSelectedStudentIds.concat(
+        selectedStudentIds.slice(0, selectedIndex),
+        selectedStudentIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedStudentIds(newSelectedStudentIds);
   };
 
   const handleLimitChange = (event) => {
@@ -84,11 +84,11 @@ const Results = ({ className, customers, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
+                    checked={selectedStudentIds.length === students.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
+                      selectedStudentIds.length > 0
+                      && selectedStudentIds.length < students.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -106,21 +106,21 @@ const Results = ({ className, customers, ...rest }) => {
                   Phone
                 </TableCell>
                 <TableCell>
-                  Registration date
+                  Age
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {students.slice(0, limit).map((student) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={student.id}
+                  selected={selectedStudentIds.indexOf(student.id) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedStudentIds.indexOf(student.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, student.id)}
                       value="true"
                     />
                   </TableCell>
@@ -131,29 +131,28 @@ const Results = ({ className, customers, ...rest }) => {
                     >
                       <Avatar
                         className={classes.avatar}
-                        src={customer.avatarUrl}
                       >
-                        {getInitials(customer.name)}
+                        {getInitials(student.name)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {student.name}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {student.email}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    {student.address}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {student.phoneNo}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {student.age}
                   </TableCell>
                 </TableRow>
               ))}
@@ -163,7 +162,7 @@ const Results = ({ className, customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={students.length}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
@@ -176,7 +175,7 @@ const Results = ({ className, customers, ...rest }) => {
 
 Results.propTypes = {
   className: PropTypes.string,
-  customers: PropTypes.array.isRequired
+  students: PropTypes.array.isRequired
 };
 
 export default Results;
