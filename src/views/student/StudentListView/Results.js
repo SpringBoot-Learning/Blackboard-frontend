@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -66,6 +65,7 @@ const Results = ({ className, students, ...rest }) => {
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -97,6 +97,9 @@ const Results = ({ className, students, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
+                  Username
+                </TableCell>
+                <TableCell>
                   Email
                 </TableCell>
                 <TableCell>
@@ -111,7 +114,7 @@ const Results = ({ className, students, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {students.slice(0, limit).map((student) => (
+              {(limit > 0 ? students.slice(page * limit, page * limit + limit) : students).map((student) => (
                 <TableRow
                   hover
                   key={student.id}
@@ -141,6 +144,9 @@ const Results = ({ className, students, ...rest }) => {
                         {student.name}
                       </Typography>
                     </Box>
+                  </TableCell>
+                  <TableCell>
+                    {student.username}
                   </TableCell>
                   <TableCell>
                     {student.email}

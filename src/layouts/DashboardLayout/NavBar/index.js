@@ -37,9 +37,9 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/app/customers',
+    href: '/app/students',
     icon: UsersIcon,
-    title: 'Customers'
+    title: 'Students'
   },
   {
     href: '/app/products',
