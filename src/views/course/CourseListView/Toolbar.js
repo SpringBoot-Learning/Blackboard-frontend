@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -12,6 +12,9 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import Dialog from '@material-ui/core/Dialog';
+import AddStudentForm from '../../student/StudentListView/AddStudentForm';
+import AddCourseForm from './AddCourseForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -25,6 +28,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClickOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleClose = (e) => {
+    e.preventDefault();
+    setShowModal(false);
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  };
 
   return (
     <div
@@ -35,18 +50,16 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        <Button className={classes.importButton}>
-          Import
-        </Button>
-        <Button className={classes.exportButton}>
-          Export
-        </Button>
         <Button
           color="primary"
           variant="contained"
+          onClick={handleClickOpen}
         >
-          Add product
+          Add Course
         </Button>
+        <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <AddCourseForm handleClose={handleClose} />
+        </Dialog>
       </Box>
       <Box mt={3}>
         <Card>

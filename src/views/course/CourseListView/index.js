@@ -8,6 +8,8 @@ import {
 import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import axios from 'axios';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import Toolbar from './Toolbar';
 import CourseCard from './CourseCard';
 
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ProductList = () => {
+const CourseList = () => {
   const classes = useStyles();
   const [courses, setCourses] = useState([]);
 
@@ -82,4 +84,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default CourseList;

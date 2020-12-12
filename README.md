@@ -83,7 +83,7 @@ material-react-dashboard
 	│	├── Dashboard
 	│	├── Icons
 	│	├── NotFound
-	│	├── ProductList
+	│	├── CourseList
 	│	├── Settings
 	│	├── SignIn
 	│	├── SignUp

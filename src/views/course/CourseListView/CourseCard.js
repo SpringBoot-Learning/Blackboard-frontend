@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -11,8 +11,16 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import getInitials from '../../../utils/getInitials';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import Fab from '@material-ui/core/Fab';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Dialog from '@material-ui/core/Dialog';
 import ModuleAccordion from './ModuleAccordion';
+import getInitials from '../../../utils/getInitials';
+import AddCourseForm from './AddCourseForm';
+import AddModuleForm from './AddModuleForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +38,18 @@ const useStyles = makeStyles((theme) => ({
 
 const CourseCard = ({ className, course, ...rest }) => {
   const classes = useStyles();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOnClick = () => {
+    setShowModal(true);
+  };
+
+  const handleClose = (e) => {
+    e.preventDefault();
+    setShowModal(false);
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  };
 
   return (
     <Card
@@ -64,12 +84,32 @@ const CourseCard = ({ className, course, ...rest }) => {
           {course.label}
         </Typography>
       </CardContent>
+      <Box flexGrow={1} />
       <Divider />
       {course.modules.length > 0 && (
-      <Box p={2}>
+      <Box p={2} key={course.modules.id}>
         {ModuleAccordion(course)}
       </Box>
       )}
+      <Box p={2}>
+        <Grid
+          container
+          justify="space-between"
+          spacing={2}
+        >
+          <Grid
+            className={classes.statsItem}
+            item
+          >
+            <Fab color="default" aria-label="add" className={classes.fabButton} size="small">
+              <AddIcon onClick={handleOnClick} />
+            </Fab>
+          </Grid>
+        </Grid>
+      </Box>
+      <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <AddModuleForm handleClose={handleClose} course={course} />
+      </Dialog>
     </Card>
   );
 };

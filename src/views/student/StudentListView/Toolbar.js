@@ -33,8 +33,11 @@ const Toolbar = ({ className, ...rest }) => {
     setShowModal(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.preventDefault();
     setShowModal(false);
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   };
 
   return (

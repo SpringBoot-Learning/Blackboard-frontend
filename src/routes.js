@@ -7,7 +7,7 @@ import StudentListView from 'src/views/student/StudentListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
-import ProductListView from 'src/views/product/ProductListView';
+import CourseListView from 'src/views/course/CourseListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 
@@ -19,7 +19,7 @@ const routes = [
       { path: 'account', element: <AccountView /> },
       { path: 'students', element: <StudentListView /> },
       { path: 'dashboard', element: <DashboardView /> },
-      { path: 'courses', element: <ProductListView /> },
+      { path: 'courses', element: <CourseListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
