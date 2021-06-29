@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Container,
@@ -7,9 +7,11 @@ import {
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
+import axios from 'axios';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import Toolbar from './Toolbar';
-import ProductCard from './ProductCard';
-import data from './data';
+import CourseCard from './CourseCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,9 +25,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ProductList = () => {
+const CourseList = () => {
   const classes = useStyles();
-  const [products] = useState(data);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/v1/teachers/courses/3')
+      .then((res) => {
+        console.log(res);
+        setCourses(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Page
@@ -39,17 +52,17 @@ const ProductList = () => {
             container
             spacing={3}
           >
-            {products.map((product) => (
+            {courses.map((course) => (
               <Grid
                 item
-                key={product.id}
+                key={course.id}
                 lg={4}
                 md={6}
                 xs={12}
               >
-                <ProductCard
+                <CourseCard
                   className={classes.productCard}
-                  product={product}
+                  course={course}
                 />
               </Grid>
             ))}
@@ -71,4 +84,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default CourseList;

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Container,
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import axios from 'axios';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import data from './data';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,17 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomerListView = () => {
   const classes = useStyles();
-  const [customers] = useState(data);
+  const [students, setStudents] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/v1/students')
+      .then((res) => {
+        console.log(res);
+        setStudents(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Page
@@ -30,7 +40,7 @@ const CustomerListView = () => {
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Results customers={customers} />
+          <Results students={students} />
         </Box>
       </Container>
     </Page>
